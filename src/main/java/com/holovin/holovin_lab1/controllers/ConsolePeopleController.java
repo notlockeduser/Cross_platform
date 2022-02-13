@@ -16,8 +16,8 @@ public class ConsolePeopleController {
     private final String CONSOLE_INPUT = "ConsolePeopleController - input > ";
     private final String CONSOLE_OUT = "ConsolePeopleController - output > ";
 
-    private PersonDAO peopleDAO;
-    private BufferedReader scanner;
+    private final PersonDAO peopleDAO;
+    private final BufferedReader scanner;
 
     public ConsolePeopleController(PersonDAO peopleDAO) {
         this.peopleDAO = peopleDAO;
