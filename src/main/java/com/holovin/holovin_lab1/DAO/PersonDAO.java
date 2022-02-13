@@ -9,16 +9,19 @@ import java.util.List;
 @Service
 public class PersonDAO {
 
+    //    int nextId = 0;
     //    List<Person> database = new ArrayList<>();
-    List<Person> database = List.of(
-            new Person(0, "Egor", "email@Egor", 32),
-            new Person(0, "Igor", "email@Igor", 22),
-            new Person(0, "Eugene", "email@Eugene", 17),
-            new Person(0, "Bohdan", "email@Bohdan", 67),
-            new Person(0, "Ruslan", "email@Ruslan", 55)
-    );
 
-    int lastId = 0;
+
+    List<Person> database = new ArrayList<>(List.of(
+            new Person(0, "Egor", "email@Egor", 32),
+            new Person(1, "Igor", "email@Igor", 22),
+            new Person(2, "Eugene", "email@Eugene", 17),
+            new Person(3, "Bohdan", "email@Bohdan", 67),
+            new Person(4, "Ruslan", "email@Ruslan", 55)
+    ));
+
+    int nextId = 5;
 
     public List<Person> getAll() {
         return database;
@@ -32,8 +35,8 @@ public class PersonDAO {
     }
 
     public void add(Person person) {
-        person.setId(lastId);
-        lastId++;
+        person.setId(nextId);
+        nextId++;
         database.add(person);
     }
 

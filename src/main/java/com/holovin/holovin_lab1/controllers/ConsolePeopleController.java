@@ -2,13 +2,13 @@ package com.holovin.holovin_lab1.controllers;
 
 import com.holovin.holovin_lab1.DAO.PersonDAO;
 import com.holovin.holovin_lab1.models.Person;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-@Controller
+@Service
 public class ConsolePeopleController {
 
     private final String CONSOLE_INFO = "ConsolePeopleController - info > ";
@@ -16,17 +16,15 @@ public class ConsolePeopleController {
     private final String CONSOLE_INPUT = "ConsolePeopleController - input > ";
     private final String CONSOLE_OUT = "ConsolePeopleController - output > ";
 
-    PersonDAO peopleDAO;
-    Scanner scanner;
+    private PersonDAO peopleDAO;
+    private BufferedReader scanner;
 
-    @Autowired
-    ConsolePeopleController(PersonDAO peopleDAO) {
+    public ConsolePeopleController(PersonDAO peopleDAO) {
         this.peopleDAO = peopleDAO;
-        scanner = new Scanner(System.in);
+        scanner = new BufferedReader(new InputStreamReader(System.in));
     }
 
-    @PostConstruct
-    void postConstruct() {
+    public void run() {
         System.out.println("\n\n\n");
         while (true) {
             try {
@@ -37,9 +35,9 @@ public class ConsolePeopleController {
         }
     }
 
-    private void readConsole() {
+    private void readConsole() throws IOException {
         System.out.print("ConsolePeopleController - command > ");
-        String line = scanner.nextLine();
+        String line = scanner.readLine();
 
         switch (line) {
             case "getAllPeople" -> getAllPeople();
@@ -57,18 +55,19 @@ public class ConsolePeopleController {
         System.out.println(CONSOLE_OUT + peopleDAO.getAll());
     }
 
-    private void getPerson() {
+    private void getPerson() throws IOException {
         System.out.println(CONSOLE_INFO + "Write index of person");
         System.out.print(CONSOLE_INPUT);
-        int id = Integer.parseInt(scanner.nextLine());
+        int id = Integer.parseInt(scanner.readLine());
 
         System.out.println(CONSOLE_OUT + peopleDAO.getPerson(id));
     }
 
-    private void addNewPerson() {
+    private void addNewPerson() throws IOException {
         System.out.println(CONSOLE_INFO + "Write data in this format -- name email age");
         System.out.print(CONSOLE_INPUT);
-        String[] arguments = scanner.nextLine().split(" ");
+        String[] arguments = scanner.readLine().split(" ");
+
         Person personToAdd = new Person(
                 arguments[0],
                 arguments[1],
@@ -79,10 +78,11 @@ public class ConsolePeopleController {
         System.out.println(CONSOLE_OUT + "Success add new person " + personToAdd);
     }
 
-    private void updatePerson() {
+    private void updatePerson() throws IOException {
         System.out.println(CONSOLE_INFO + "Write data in this format -- id name email age");
         System.out.print(CONSOLE_INPUT);
-        String[] arguments = scanner.nextLine().split(" ");
+        String[] arguments = scanner.readLine().split(" ");
+
         Person personToUpdate = new Person(
                 Integer.parseInt(arguments[0]),
                 arguments[1],
@@ -94,10 +94,10 @@ public class ConsolePeopleController {
         System.out.println(CONSOLE_OUT + "Success update person " + personToUpdate);
     }
 
-    private void deletePerson() {
+    private void deletePerson() throws IOException {
         System.out.println(CONSOLE_INFO + "Write index of person");
         System.out.print(CONSOLE_INPUT);
-        int id = Integer.parseInt(scanner.nextLine());
+        int id = Integer.parseInt(scanner.readLine());
 
         peopleDAO.delete(id);
         System.out.println(CONSOLE_OUT + "Success delete person with id " + id);
